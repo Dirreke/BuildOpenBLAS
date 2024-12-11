@@ -62,17 +62,11 @@ jobs:
 
       - name: Configure CMake
         env:
-          COMMON_OPTS: -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release
+          COMMON_OPTS: -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang-new -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release
         run: |
           conda activate base
-          set "LIB=${{ env.CONDA }}\Library\lib;%LIB%"
-          set "CPATH=${{ env.CONDA }}\Library\include;%CPATH%"
-          cmake --version
-          ls ${{ env.CONDA }}\Library\bin\ -force
-          ls D:\conda_pkgs_dir\flang-19.1.5-hbeecb71_0\ -force
-          $env:PATH
-          $env:LIB
-          ninja --help
+          $env:LIB+=";${{ env.CONDA }}\Library\lib""
+          $env:CPATH+=";${{ env.CONDA }}\Library\include"
           cd OpenBLAS
           mkdir build
           cd build
