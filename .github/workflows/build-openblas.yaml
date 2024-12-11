@@ -75,14 +75,12 @@ jobs:
 
       - name: Build OpenBLAS
         run: |
-          # cd OpenBLAS
-          cd build
+          cd OpenBLAS
           HOSTCC=clang-cl CC=clang-cl FC=flang-new make
 
       - name: Install OpenBLAS
         run: |
           cd OpenBLAS
-          # cd build
           PREFIX=../openblas-windows-latest make install
 
       - name: Archive OpenBLAS Build
