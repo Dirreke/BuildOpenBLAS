@@ -22,9 +22,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: download OpenBLAS 
+      - name: download and unzip OpenBLAS 
         run: |
-          curl -L "https://github.com/OpenMathLib/OpenBLAS/releases/download/v${{ env.OPENBLAS_VERSION }}/OpenBLAS-${{ env.OPENBLAS_VERSION }}.tar.gz",
+          curl -LO "https://github.com/OpenMathLib/OpenBLAS/releases/download/v${{ env.OPENBLAS_VERSION }}/OpenBLAS-${{ env.OPENBLAS_VERSION }}.zip"
+          7z x "OpenBLAS-${{ env.OPENBLAS_VERSION }}.zip" -oOpenBLAS
 
       - name: Set Up Miniconda
         uses: conda-incubator/setup-miniconda@v3
