@@ -65,7 +65,7 @@ jobs:
           COMMON_OPTS: -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang-new -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release
         run: |
           conda activate base
-          $env:LIB+=";${{ env.CONDA }}\Library\lib""
+          $env:LIB+=";${{ env.CONDA }}\Library\lib"
           $env:CPATH+=";${{ env.CONDA }}\Library\include"
           cd OpenBLAS
           mkdir build
