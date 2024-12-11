@@ -78,11 +78,8 @@ jobs:
           conda activate base
           $env:LIB+=";${{ env.CONDA }}\Library\lib"
           $env:CPATH+=";${{ env.CONDA }}\Library\include"
-          $env:HOSTCC="clang-cl"
-          $env:CC="clang-cl"
-          $env:FC="flang-new"
           cd OpenBLAS
-          make
+          make CC=clang-cl FC=flang-new AR="llvm-ar" DYNAMIC_ARCH=1 RANLIB="llvm-ranlib" MAKE=make
 
       - name: Install OpenBLAS
         run: |
