@@ -64,6 +64,8 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Configure CMake
+        env:
+          COMMON_OPTS: "-DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release"
         run: |
           conda activate
           set "LIB=${{ env.CONDA }}\Library\lib;%LIB%"
@@ -72,10 +74,8 @@ jobs:
           cd OpenBLAS
           mkdir build
           cd build
-          
-          $commonArgs = "-DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release"
 
-          cmake .. -G "Ninja" $commonArgs ${{ matrix.target.opts }}
+          cmake .. -G "Ninja" ${{ env.COMMON_OPTS }} ${{ matrix.target.opts }}
 
       - name: Build OpenBLAS
         run: |
