@@ -51,9 +51,6 @@ jobs:
           auto-activate-base: true
           activate-environment: ""
 
-      - name: Get Latest CMake and Ninja
-        uses: lukka/get-cmake@latest
-
       - name: Install Conda Packages
         run: |
           conda config --add channels conda-forge --force
