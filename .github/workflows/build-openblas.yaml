@@ -51,7 +51,7 @@ jobs:
           
           $commonArgs = "-DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DBINARY=64 -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release"
 
-          cmake .. -G "Ninga" $commonArgs
+          cmake .. -G "Ninja" $commonArgs
 
       - name: Build OpenBLAS
         run: |
