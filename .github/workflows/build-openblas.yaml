@@ -75,6 +75,9 @@ jobs:
 
       - name: Build OpenBLAS
         run: |
+          conda activate base
+          $env:LIB+=";${{ env.CONDA }}\Library\lib"
+          $env:CPATH+=";${{ env.CONDA }}\Library\include"
           cd OpenBLAS
           HOSTCC=clang-cl CC=clang-cl FC=flang-new make
 
