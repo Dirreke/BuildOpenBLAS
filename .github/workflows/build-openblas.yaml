@@ -22,18 +22,32 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Cache conda
+        uses: actions/cache@v3
+        env:
+          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          enableCrossOsArchive: true
+          path: D:\conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}
+
       - name: download and unzip OpenBLAS 
         run: |
           curl -LO "https://github.com/OpenMathLib/OpenBLAS/releases/download/v${{ env.OPENBLAS_VERSION }}/OpenBLAS-${{ env.OPENBLAS_VERSION }}.zip"
-          7z x "OpenBLAS-${{ env.OPENBLAS_VERSION }}.zip" -oOpenBLAS
+          7z x "OpenBLAS-${{ env.OPENBLAS_VERSION }}.zip"
+          mv "OpenBLAS-${{ env.OPENBLAS_VERSION }}" OpenBLAS
 
       - name: Set Up Miniconda
         uses: conda-incubator/setup-miniconda@v3
+        with: 
+          pkgs-dirs: D:\conda_pkgs_dir
 
-      - name: Set Up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.13
+      # - name: Set Up Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: 3.13
 
       - name: Get Latest CMake and Ninja
         uses: lukka/get-cmake@latest
@@ -49,12 +63,8 @@ jobs:
 
       - name: Configure CMake
         run: |
-          #set miniconda library dir
-          # set "LIB=%LIB%;%CONDA_PREFIX%\Library\lib"
-          conda env
-          conda info
-          conda list
-          dir ${{ env.CONDA }}
+          set "LIB=${{ env.CONDA }}\Library\lib;%LIB%"
+          set "CPATH=${{ env.CONDA }}\Library\include;%CPATH%"
           dir OpenBLAS
           cd OpenBLAS
           mkdir build
