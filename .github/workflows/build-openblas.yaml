@@ -54,6 +54,7 @@ jobs:
           conda env
           conda info
           conda list
+          dir ${{ env.CONDA }}
           dir OpenBLAS
           cd OpenBLAS
           mkdir build
