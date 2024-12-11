@@ -78,13 +78,17 @@ jobs:
           conda activate base
           $env:LIB+=";${{ env.CONDA }}\Library\lib"
           $env:CPATH+=";${{ env.CONDA }}\Library\include"
+          $env:HOSTCC=clang-cl
+          $env:CC=clang-cl
+          $env:FC=flang-new
           cd OpenBLAS
-          HOSTCC=clang-cl CC=clang-cl FC=flang-new make
+          make
 
       - name: Install OpenBLAS
         run: |
           cd OpenBLAS
-          PREFIX=../openblas-windows-latest make install
+          $env:PREFIX=../openblas-windows-latest 
+          make install
 
       - name: Archive OpenBLAS Build
         uses: actions/upload-artifact@v4
