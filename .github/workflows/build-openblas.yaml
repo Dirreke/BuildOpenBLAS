@@ -47,7 +47,9 @@ jobs:
       - name: Set Up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with: 
+          pkgs-dirs: D:\conda_pkgs_dir
           auto-activate-base: true
+          activate-environment: ""
 
       - name: Install Conda Packages
         run: |
@@ -62,16 +64,12 @@ jobs:
         env:
           COMMON_OPTS: -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release
         run: |
-          conda activate
+          conda activate base
           set "LIB=${{ env.CONDA }}\Library\lib;%LIB%"
           set "CPATH=${{ env.CONDA }}\Library\include;%CPATH%"
-          echo $PATH
-          echo %PATH%
-          set "PATH = C:/Miniconda/Library/bin/;%PATH%"
-          dir C:/Miniconda/Library/bin/
           cmake --version
-          clang --version
-          dir OpenBLAS
+          dir D:\conda_pkgs_dir\
+          ninja --version
           cd OpenBLAS
           mkdir build
           cd build
