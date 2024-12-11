@@ -68,8 +68,11 @@ jobs:
           set "LIB=${{ env.CONDA }}\Library\lib;%LIB%"
           set "CPATH=${{ env.CONDA }}\Library\include;%CPATH%"
           cmake --version
-          dir D:\conda_pkgs_dir\
-          ninja --version
+          ls ${{ env.CONDA }}\Library\bin\ -force
+          ls D:\conda_pkgs_dir\flang-19.1.5-hbeecb71_0\ -force
+          $env:PATH
+          $env:LIB
+          ninja --help
           cd OpenBLAS
           mkdir build
           cd build
