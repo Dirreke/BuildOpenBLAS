@@ -67,6 +67,9 @@ jobs:
           conda activate
           set "LIB=${{ env.CONDA }}\Library\lib;%LIB%"
           set "CPATH=${{ env.CONDA }}\Library\include;%CPATH%"
+          cmake --version
+          flang --version
+          clang --version
           dir OpenBLAS
           cd OpenBLAS
           mkdir build
