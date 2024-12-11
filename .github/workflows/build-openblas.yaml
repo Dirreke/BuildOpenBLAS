@@ -12,15 +12,20 @@ jobs:
     runs-on: windows-latest
     env: 
       OPENBLAS_VERSION: 0.3.28
+    matrix:
+      target:
+        - name: x64
+          opts: "-DBINARY=64"
+        - name: x86
+          opts: "-DBINARY=32"
+        - name: x64-64
+          opts: "-DBINARY=64 -DUSE_THREAD=1 -DNUM_THREADS=64"
 
     steps:
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
-
-      - name: Checkout Code
-        uses: actions/checkout@v3
 
       - name: Cache conda
         uses: actions/cache@v3
@@ -43,6 +48,8 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with: 
           pkgs-dirs: D:\conda_pkgs_dir
+          auto-activate-base: true
+          activate-environment: ""
 
       # - name: Set Up Python
       #   uses: actions/setup-python@v5
