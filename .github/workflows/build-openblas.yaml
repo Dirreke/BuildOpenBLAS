@@ -7,20 +7,19 @@ on:
   workflow_dispatch:
 
 jobs:
+  matrix:
+    target:
+      - name: x64
+        opts: "-DBINARY=64 -DUSE_THREAD=OFF -DUSE_LOCKING=ON"
+      - name: x86
+        opts: "-DBINARY=32 -DUSE_THREAD=OFF -DUSE_LOCKING=ON"
+      - name: x64-64
+        opts: "-DBINARY=64 -DUSE_THREAD=ON -DNUM_THREADS=64"
   openblas_windows:
     name: Build OpenBLAS on Windows
     runs-on: windows-latest
     env: 
       OPENBLAS_VERSION: 0.3.28
-    matrix:
-      target:
-        - name: x64
-          opts: "-DBINARY=64 -DUSE_THREAD=0"
-        - name: x86
-          opts: "-DBINARY=32 -DUSE_THREAD=0"
-        - name: x64-64
-          opts: "-DBINARY=64 -DUSE_THREAD=1 -DNUM_THREADS=64"
-
     steps:
       - name: Extract branch name
         shell: bash
@@ -73,7 +72,7 @@ jobs:
           mkdir build
           cd build
           
-          $commonArgs = "-DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DBINARY=64 -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release"
+          $commonArgs = "-DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_STATIC_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release"
 
           cmake .. -G "Ninja" $commonArgs ${{ matrix.target.opts }}
 
