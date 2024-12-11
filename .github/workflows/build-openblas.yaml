@@ -15,9 +15,9 @@ jobs:
     matrix:
       target:
         - name: x64
-          opts: "-DBINARY=64"
+          opts: "-DBINARY=64 -DUSE_THREAD=0"
         - name: x86
-          opts: "-DBINARY=32"
+          opts: "-DBINARY=32 -DUSE_THREAD=0"
         - name: x64-64
           opts: "-DBINARY=64 -DUSE_THREAD=1 -DNUM_THREADS=64"
 
@@ -51,11 +51,6 @@ jobs:
           auto-activate-base: true
           activate-environment: ""
 
-      # - name: Set Up Python
-      #   uses: actions/setup-python@v5
-      #   with:
-      #     python-version: 3.13
-
       - name: Get Latest CMake and Ninja
         uses: lukka/get-cmake@latest
 
@@ -80,7 +75,7 @@ jobs:
           
           $commonArgs = "-DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DBINARY=64 -DNOFORTRAN=0 -DDYNAMIC_ARCH=ON -DCMAKE_BUILD_TYPE=Release"
 
-          cmake .. -G "Ninja" $commonArgs
+          cmake .. -G "Ninja" $commonArgs ${{ matrix.target.opts }}
 
       - name: Build OpenBLAS
         run: |
@@ -93,21 +88,9 @@ jobs:
           cd OpenBLAS
           cd build
           cmake --install . --config Release --prefix ../../openblas-windows-latest
-      
-      - name: Push Changes
-        continue-on-error: true
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions@users.noreply.github.com"
-
-          git pull
-          git add -A
-          git commit -m "Update OpenBLAS on Windows"
-          git push origin master
 
       - name: Archive OpenBLAS Build
         uses: actions/upload-artifact@v4
         with:
-          name: OpenBLAS on windows-latest
+          name: OpenBLAS-${{ env.OPENBLAS_VERSION }}-MSVC-${{ matrix.target.name }}
           path: openblas-windows-latest
-
