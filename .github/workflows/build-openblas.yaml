@@ -63,6 +63,7 @@ jobs:
 
       - name: Configure CMake
         run: |
+          conda activate
           set "LIB=${{ env.CONDA }}\Library\lib;%LIB%"
           set "CPATH=${{ env.CONDA }}\Library\include;%CPATH%"
           dir OpenBLAS
