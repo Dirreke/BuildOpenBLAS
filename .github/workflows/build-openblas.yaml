@@ -78,9 +78,9 @@ jobs:
           conda activate base
           $env:LIB+=";${{ env.CONDA }}\Library\lib"
           $env:CPATH+=";${{ env.CONDA }}\Library\include"
-          $env:HOSTCC=clang-cl
-          $env:CC=clang-cl
-          $env:FC=flang-new
+          $env:HOSTCC="clang-cl"
+          $env:CC="clang-cl"
+          $env:FC="flang-new"
           cd OpenBLAS
           make
 
