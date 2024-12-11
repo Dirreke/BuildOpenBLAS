@@ -55,7 +55,7 @@ jobs:
         run: |
           conda config --add channels conda-forge --force
           conda config --set auto_update_conda false
-          conda install --yes --quiet cmake flang clangdev perl libflang ninja
+          conda install --yes --quiet cmake flang clangdev perl libflang ninja make
 
       - name: Add msbuild to PATH
         uses: ilammy/msvc-dev-cmd@v1
@@ -68,22 +68,22 @@ jobs:
           $env:LIB+=";${{ env.CONDA }}\Library\lib"
           $env:CPATH+=";${{ env.CONDA }}\Library\include"
           cd OpenBLAS
-          mkdir build
-          cd build
+          # mkdir build
+          # cd build
 
-          cmake .. -G "Ninja" ${{ env.COMMON_OPTS }} ${{ matrix.target.opts }}
+          # cmake .. -G "Ninja" ${{ env.COMMON_OPTS }} ${{ matrix.target.opts }}
 
       - name: Build OpenBLAS
         run: |
-          cd OpenBLAS
+          # cd OpenBLAS
           cd build
-          cmake --build . --config Release
+          HOSTCC=clang-cl CC=clang-cl FC=flang-new make
 
       - name: Install OpenBLAS
         run: |
           cd OpenBLAS
-          cd build
-          cmake --install . --config Release --prefix ../../openblas-windows-latest
+          # cd build
+          PREFIX=../openblas-windows-latest make install
 
       - name: Archive OpenBLAS Build
         uses: actions/upload-artifact@v4
