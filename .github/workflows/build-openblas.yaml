@@ -55,7 +55,7 @@ jobs:
         run: |
           conda config --add channels conda-forge --force
           conda config --set auto_update_conda false
-          conda install --yes --quiet cmake flang clangdev perl libflang ninja make
+          conda install --yes --quiet cmake flang clangdev perl libflang ninja make gfortran
 
       - name: Add msbuild to PATH
         uses: ilammy/msvc-dev-cmd@v1
@@ -79,7 +79,7 @@ jobs:
           $env:LIB+=";${{ env.CONDA }}\Library\lib"
           $env:CPATH+=";${{ env.CONDA }}\Library\include"
           cd OpenBLAS
-          make CC=clang-cl FC=flang-new AR="llvm-ar" DYNAMIC_ARCH=1 RANLIB="llvm-ranlib" MAKE=make
+          make CC=clang-cl FC=gfortran AR="llvm-ar" DYNAMIC_ARCH=1 RANLIB="llvm-ranlib" MAKE=make
 
       - name: Install OpenBLAS
         run: |
