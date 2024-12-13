@@ -11,7 +11,7 @@ jobs:
     name: Build OpenBLAS on Windows
     runs-on: windows-latest
     env: 
-      OPENBLAS_VERSION: 0.3.28
+      OPENBLAS_VERSION: fix-flang-new
     strategy: 
       matrix:
         target:
@@ -40,7 +40,7 @@ jobs:
 
       - name: download and unzip OpenBLAS 
         run: |
-          curl -LO "https://github.com/OpenMathLib/OpenBLAS/releases/download/v${{ env.OPENBLAS_VERSION }}/OpenBLAS-${{ env.OPENBLAS_VERSION }}.zip"
+          curl -LO "https://github.com/Dirreke/OpenBLAS/archive/refs/heads/fix-flang-new.zip"
           7z x "OpenBLAS-${{ env.OPENBLAS_VERSION }}.zip"
           mv "OpenBLAS-${{ env.OPENBLAS_VERSION }}" OpenBLAS
 
@@ -79,7 +79,7 @@ jobs:
           $env:LIB+=";${{ env.CONDA }}\Library\lib"
           $env:CPATH+=";${{ env.CONDA }}\Library\include"
           cd OpenBLAS
-          make CC=clang-cl FC=gfortran AR="llvm-ar" DYNAMIC_ARCH=1 RANLIB="llvm-ranlib" MAKE=make
+          make CC=clang-cl FC=flang-new AR="llvm-ar" DYNAMIC_ARCH=1 RANLIB="llvm-ranlib" MAKE=make
 
       - name: Install OpenBLAS
         run: |
