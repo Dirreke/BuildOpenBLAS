@@ -41,7 +41,7 @@ jobs:
       - name: download and unzip OpenBLAS 
         run: |
           curl -LO "https://github.com/Dirreke/OpenBLAS/archive/refs/heads/fix-flang-new.zip"
-          7z x "OpenBLAS-${{ env.OPENBLAS_VERSION }}.zip"
+          7z x "${{ env.OPENBLAS_VERSION }}.zip"
           mv "OpenBLAS-${{ env.OPENBLAS_VERSION }}" OpenBLAS
 
       - name: Set Up Miniconda
