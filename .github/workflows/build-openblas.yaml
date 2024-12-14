@@ -79,7 +79,7 @@ jobs:
           $env:LIB+=";${{ env.CONDA }}\Library\lib"
           $env:CPATH+=";${{ env.CONDA }}\Library\include"
           cd OpenBLAS
-          make CC=clang-cl FC=flang-new AR="llvm-ar" DYNAMIC_ARCH=1 RANLIB="llvm-ranlib" MAKE=make
+          make CC=clang-cl FC=flang-new AR="llvm-ar" NO_SHARED=1 DYNAMIC_ARCH=1 RANLIB="llvm-ranlib" MAKE=make
 
       - name: Install OpenBLAS
         run: |
